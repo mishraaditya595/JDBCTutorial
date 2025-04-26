@@ -22,12 +22,15 @@ public class DemoJdbc {
         System.out.println("====connection established====");
 
         //create and execute statement
-        String sql = "select name from student where sid = 1";
+        String sql = "select * from student";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
-        resultSet.next();
-        String name = resultSet.getString("name");
-        System.out.println("Name: "+name);
+        while (resultSet.next()) {
+            System.out.print(resultSet.getInt("sid")+ "-");
+            System.out.print(resultSet.getString("name")+ "-");
+            System.out.print(resultSet.getInt("marks"));
+            System.out.println();
+        }
 
         //close connection
         connection.close();
