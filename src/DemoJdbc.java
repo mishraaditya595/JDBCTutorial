@@ -21,9 +21,31 @@ public class DemoJdbc {
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("====connection established====");
 
-        //create and execute statement
-        String sql = "select * from student";
+        //create statement
         Statement statement = connection.createStatement();
+
+        //execute statement
+        //delete data
+        displayData(statement);
+        deleteData(statement);
+
+        //insert data
+        displayData(statement);
+        insertData(statement);
+
+        //update data
+        displayData(statement);
+        updateData(statement);
+
+        displayData(statement);
+
+        //close connection
+        connection.close();
+        System.out.println("====connection closed====");
+    }
+
+    private static void displayData(Statement statement) throws SQLException {
+        String sql = "select * from student";
         ResultSet resultSet = statement.executeQuery(sql);
         while (resultSet.next()) {
             System.out.print(resultSet.getInt("sid")+ "-");
@@ -31,9 +53,24 @@ public class DemoJdbc {
             System.out.print(resultSet.getInt("marks"));
             System.out.println();
         }
+        System.out.println("==== ====");
+    }
 
-        //close connection
-        connection.close();
-        System.out.println("====connection closed====");
+    private static void deleteData(Statement statement) throws SQLException {
+        String query = "delete from student where sid=4";
+        boolean insertionStatus = statement.execute(query);
+        System.out.println("Data deletion done");
+    }
+
+    private static void updateData(Statement statement) throws SQLException {
+        String query = "update student set marks=28 where sid=4";
+        boolean insertionStatus = statement.execute(query);
+        System.out.println("Data updation done");
+    }
+
+    private static void insertData(Statement statement) throws SQLException {
+        String query = "insert into student values (4, 'Shubham', 27)";
+        boolean insertionStatus = statement.execute(query);
+        System.out.println("Data insertion done");
     }
 }
